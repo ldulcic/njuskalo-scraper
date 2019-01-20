@@ -11,6 +11,9 @@
 
 BOT_NAME = 'njuskalo_scraper'
 
+LOG_ENABLED = True
+LOG_FILE = 'log.txt'
+
 SPIDER_MODULES = ['njuskalo_scraper.spiders']
 NEWSPIDER_MODULE = 'njuskalo_scraper.spiders'
 
