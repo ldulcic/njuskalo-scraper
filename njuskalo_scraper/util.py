@@ -24,13 +24,13 @@ class MailSender:
         self.MAIL_PORT = config['MAIL_PORT']
         self.MAIL_USER = config['MAIL_USER']
         self.MAIL_PASS = config['MAIL_PASS']
-        self.MAIL_RECIPIENT = config['MAIL_RECIPIENT']
+        self.MAIL_RECIPIENT = config['MAIL_RECIPIENT'].split(',')
 
     def send_email(self, items):
         assert len(items) > 0
         msg = MIMEMultipart()
         msg['From'] = self.MAIL_USER
-        msg['To'] = self.MAIL_RECIPIENT
+        msg['To'] = ','.join(self.MAIL_RECIPIENT)
         msg['Subject'] = 'Novi stan!' if len(items) == 1 else 'Novi stanovi!'
 
         ads_strings = map(lambda ad: "<a href=\"%s\">%s</a><br>%s<br>%s€<br>" % (ad['link'], ad['title'], ad['description'], ad['price']), items)
