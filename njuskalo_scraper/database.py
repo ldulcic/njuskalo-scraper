@@ -1,13 +1,13 @@
 from peewee import SqliteDatabase, Model, CharField, IntegerField
 
-database = SqliteDatabase('njuskalo_apartment_ads.db')
+database = SqliteDatabase('njuskalo_ads.db')
 
 
 def init_database():
-    database.create_tables([NjuskaloApartmentAdDB])
+    database.create_tables([NjuskaloAdDB])
 
 
-class NjuskaloApartmentAdDB(Model):
+class NjuskaloAdDB(Model):
     title = CharField()
     link = CharField(unique=True)
     description = CharField()

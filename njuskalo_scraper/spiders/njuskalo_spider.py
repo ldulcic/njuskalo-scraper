@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 import scrapy
-from ..items import NjuskaloApartmentAd
+from ..items import NjuskaloAd
+
+
+def create_next_page_link(current_link, next_page_num):
+    base_url = current_link.split('?')[0]
+    return "{}?page={}".format(base_url, next_page_num)
 
 
 class NjuskaloSpider(scrapy.Spider):
@@ -20,8 +25,8 @@ class NjuskaloSpider(scrapy.Spider):
             description = article.xpath(".//div[@class='entity-description-main']/text()").extract()
             description = ', '.join(filter(None, map(lambda s: s.strip(), description)))
             published = article.xpath(".//div[@class='entity-pub-date']/time/text()").extract_first().strip()
-            price = article.xpath(".//strong[@class='price price--eur']/text()").extract_first().strip()
-            yield NjuskaloApartmentAd(
+            price = article.xpath(".//strong[@class='price price--eur']/text()").extract_first().strip().replace('.', '').replace(',', '')
+            yield NjuskaloAd(
                 title=title,
                 link=link,
                 description=description,
@@ -29,6 +34,6 @@ class NjuskaloSpider(scrapy.Spider):
                 price=price,
             )
 
-        next_page_link = response.css(".Pagination-item--next").xpath(".//a/@href").extract_first()
-        if next_page_link:
-            yield scrapy.Request(url=next_page_link)
+        next_page_num = response.css(".Pagination-item--next").xpath(".//button/@data-page").extract_first()
+        if next_page_num:
+            yield scrapy.Request(url=create_next_page_link(response.url, next_page_num))

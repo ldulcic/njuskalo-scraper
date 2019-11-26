@@ -6,12 +6,12 @@
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 from scrapy.exceptions import DropItem
-from njuskalo_scraper.database import NjuskaloApartmentAdDB
+from njuskalo_scraper.database import NjuskaloAdDB
 
 
 class DropDuplicatesPipeline:
     def process_item(self, item, spider):
-        query = NjuskaloApartmentAdDB.select().where(NjuskaloApartmentAdDB.link == item['link'])
+        query = NjuskaloAdDB.select().where(NjuskaloAdDB.link == item['link'])
         if query.exists():
             raise DropItem("Duplicate item.")
         return item
@@ -19,7 +19,7 @@ class DropDuplicatesPipeline:
 
 class PersistItemsPipeline:
     def process_item(self, item, spider):
-        NjuskaloApartmentAdDB.create(
+        NjuskaloAdDB.create(
             title=item['title'],
             link=item['link'],
             description=item['description'],

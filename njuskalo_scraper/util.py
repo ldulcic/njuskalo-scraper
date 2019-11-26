@@ -38,7 +38,6 @@ class MailSender:
         %s
         
         <br><br>
-        Iiiiiiiiiiiiiiddiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii !!!!!!!!!!!
         """ % ('<br>'.join(ads_strings))
         msg.attach(MIMEText(body, 'html'))
 

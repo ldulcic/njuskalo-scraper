@@ -8,7 +8,7 @@ from scrapy.crawler import CrawlerProcess, Crawler
 from scrapy import signals
 from scrapy.utils.project import get_project_settings
 from njuskalo_scraper.spiders.njuskalo_spider import NjuskaloSpider
-from njuskalo_scraper.database import init_database, NjuskaloApartmentAdDB
+from njuskalo_scraper.database import init_database, NjuskaloAdDB
 from njuskalo_scraper.util import MailSender, parse_urls_file
 
 mail_sender = MailSender()
@@ -55,7 +55,7 @@ def parse_urls():
 def main():
     init_database()
     urls = parse_urls()
-    crawl(urls, first_run=not NjuskaloApartmentAdDB.select().exists())
+    crawl(urls, first_run=not NjuskaloAdDB.select().exists())
     schedule.every(30).minutes.do(crawl, urls=urls)
     while True:
         try:
@@ -68,3 +68,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

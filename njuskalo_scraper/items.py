@@ -8,7 +8,7 @@
 import scrapy
 
 
-class NjuskaloApartmentAd(scrapy.Item):
+class NjuskaloAd(scrapy.Item):
     title = scrapy.Field()
     link = scrapy.Field()
     description = scrapy.Field()
