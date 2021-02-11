@@ -4,8 +4,8 @@ from ..items import NjuskaloAd
 
 
 def create_next_page_link(current_link, next_page_num):
-    base_url = current_link.split('?')[0]
-    return "{}?page={}".format(base_url, next_page_num)
+    separator = '&' if '?' in current_link else '?'
+    return "{}{}page={}".format(current_link, separator, next_page_num)
 
 
 class NjuskaloSpider(scrapy.Spider):
@@ -31,7 +31,7 @@ class NjuskaloSpider(scrapy.Spider):
                 link=link,
                 description=description,
                 published=published,
-                price=price,
+                price=price
             )
 
         next_page_num = response.css(".Pagination-item--next").xpath(".//button/@data-page").extract_first()

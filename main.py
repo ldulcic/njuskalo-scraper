@@ -46,7 +46,7 @@ def parse_urls():
     group.add_argument('-f', '--file', help='Path to file with urls. Every line of file contains njuskalo url.')
     args = args.parse_args()
 
-    if hasattr(args, 'urls'):
+    if args.urls:
         return list(map(lambda url: url.strip(), args.urls.split(',')))
     else:
         return parse_urls_file(args.file)
@@ -56,7 +56,7 @@ def main():
     init_database()
     urls = parse_urls()
     crawl(urls, first_run=not NjuskaloAdDB.select().exists())
-    schedule.every(30).minutes.do(crawl, urls=urls)
+    schedule.every(20).minutes.do(crawl, urls=urls)
     while True:
         try:
             schedule.run_pending()
